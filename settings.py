@@ -55,7 +55,7 @@ TITLE_MUSIC = 'assets/music/calm_happy.ogg'
 MAIN_THEME = 'assets/music/cooking_mania.wav'
 
 # Levels
-STARTING_LEVEL = 3
+STARTING_LEVEL = 1
 
 LEVELS = [
     'assets/levels/world-1.json',
@@ -66,6 +66,8 @@ LEVELS = [
 LEVEL_TRANSITION_TIME = 120
 
 # Default character attributes
+DEFAULT_ANIMATION_FRAME_RATE = 0.1
+
 HERO_HEARTS = 3
 HERO_SPEED = 5
 HERO_JUMP_POWER = 22

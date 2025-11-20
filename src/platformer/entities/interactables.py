@@ -28,7 +28,7 @@ class Door(Entity):
     def interact(self, character):
         if not self.unlocked and self.code in character.key_chain:
             self.unlocked = True
-            character.keys.remove(self.code)
+            character.key_chain.remove(self.code)
         
         if self.unlocked:
             character.move_to(self.destination)

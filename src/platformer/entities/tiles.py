@@ -17,6 +17,9 @@ class Tile(Entity):
 class AnimatedTile(AnimatedEntity):
 
     def __init__(self, game, location, animations):
-        super().__init__(game, location, animations)
+        super().__init__(game, location, animations, default_animation_key="default")
+
+    def update(self):
+        self.animate()
 
 

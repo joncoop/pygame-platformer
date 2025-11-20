@@ -115,7 +115,7 @@ class AnimatedEntity(Entity):
         self.animations = animations
         self.animation_key = default_animation_key
         self.image_index = 0
-        self.frame_rate = 0.1
+        self.frame_rate = settings.DEFAULT_ANIMATION_FRAME_RATE
 
     def set_animation_key(self):
         pass  # Override in subclasses
