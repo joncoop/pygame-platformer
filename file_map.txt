@@ -1,0 +1,44 @@
+platformer/
+│
+├── LICENSE.txt
+├── main.py
+├── requirements.txt
+├── settings.py
+│
+├── assets
+│   ├── fonts/
+│   ├── images/
+│   ├── levels/
+│   ├── music/
+│   ├── sounds/
+│   └── sources.txt
+│
+└── src
+    └── platformer/
+        ├── __init__.py
+        ├── game.py
+        │
+        ├── camera/
+        │   ├── __init__.py
+        │   └── camera.py
+        │
+        ├── entities/
+        │   ├── __init__.py
+        │   ├── enemies.py
+        │   ├── entity.py
+        │   ├── hero.py
+        │   ├── interactables.py
+        │   ├── items.py
+        │   └── tiles.py
+        │   
+        ├── overlays/
+        │   ├── __init__.py
+        │   ├── grid.py   
+        │   ├── hud.py   
+        │   └── scenes.py
+        │   
+        └── world/
+            ├── __init__.py
+            └── world.py
+
+(world seems like a good idea, not impelmeted yet.)
