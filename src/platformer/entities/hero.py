@@ -17,7 +17,7 @@ class Hero(AnimatedEntity):
         self.vx = 0
         self.vy = 0
         self.hearts = settings.HERO_HEARTS
-        self.max_hearts = self.hearts
+        self.max_hearts = settings.HERO_MAX_HEARTS
         self.escape_time = 0
         self.facing_right = True
         self.respawn_point = location  # actually gets set in load level, location is None at instantiation
@@ -140,5 +140,5 @@ class Hero(AnimatedEntity):
         self.move_y()
         self.check_platforms_y()
         self.check_world_edges()
-        self.check_world_bottom()
+        self.check_world_bottom() # We don't need the return value for anything
         self.animate()

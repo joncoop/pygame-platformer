@@ -42,9 +42,9 @@ class Game:
         
         # Hero
         self.hero_animations = {
-            "idle_right": [pygame.image.load(path).convert_alpha() for path in settings.HERO_IMGS_IDLE_RIGHT],
-            "walk_right": [pygame.image.load(path).convert_alpha() for path in settings.HERO_IMGS_WALK_RIGHT],
-            "jump_right": [pygame.image.load(path).convert_alpha() for path in settings.HERO_IMGS_JUMP_RIGHT],
+            "idle_right": [pygame.image.load(path).convert_alpha() for path in settings.HERO_IMGS_IDLE],
+            "walk_right": [pygame.image.load(path).convert_alpha() for path in settings.HERO_IMGS_WALK],
+            "jump_right": [pygame.image.load(path).convert_alpha() for path in settings.HERO_IMGS_JUMP],
         }
         self.hero_animations["idle_left"] = [pygame.transform.flip(image, True, False) for image in self.hero_animations["idle_right"]]
         self.hero_animations["walk_left"] = [pygame.transform.flip(image, True, False) for image in self.hero_animations["walk_right"]]
@@ -60,7 +60,7 @@ class Game:
         }
 
         self.spikeman_animations = {
-            "walk_right": [pygame.image.load(path).convert_alpha() for path in settings.SPIKEMAN_IMG_WALK_RIGHT]
+            "walk_right": [pygame.image.load(path).convert_alpha() for path in settings.SPIKEMAN_IMGS]
         }
         self.spikeman_animations["walk_left"] = [pygame.transform.flip(image, True, False) for image in self.spikeman_animations["walk_right"]]
         
