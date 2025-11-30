@@ -22,7 +22,6 @@ class Hero(AnimatedEntity):
         self.facing_right = True
         self.respawn_point = location  # actually gets set in load level, location is None at instantiation
         self.key_chain = []
-        self.is_interacting = False
     
     def act(self, events, pressed_keys):
         if pressed_keys[self.controls['left']]:
@@ -38,8 +37,6 @@ class Hero(AnimatedEntity):
                     self.jump()
                 elif event.key == settings.CONTROLS['interact']:
                     self.interact()
-                elif event.key == settings.CONTROLS['uninteract']:
-                    self.uninteract()
     
     def go_left(self):
         self.vx = -1 * settings.HERO_SPEED

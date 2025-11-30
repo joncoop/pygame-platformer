@@ -17,10 +17,11 @@ class Game:
     # Scenes
     START = 0
     PLAYING = 1
-    PAUSE = 2
-    LEVEL_COMPLETE = 3
-    WIN = 4
-    LOSE = 5
+    INTERACTING = 2
+    PAUSE = 3
+    LEVEL_COMPLETE = 4
+    WIN = 5
+    LOSE = 6
 
     def __init__(self):
         pygame.mixer.pre_init()
@@ -72,6 +73,7 @@ class Game:
         # Interactables
         self.door_img = pygame.image.load(settings.DOOR_IMG).convert_alpha()
         self.locked_door_img = pygame.image.load(settings.LOCKED_DOOR_IMG).convert_alpha()
+        self.sign_img = pygame.image.load(settings.SIGN_IMG).convert_alpha()
 
         # Goal
         self.flag_img = pygame.image.load(settings.FLAG_IMG).convert_alpha()
@@ -83,7 +85,7 @@ class Game:
             Game.WIN: platformer.overlays.WinScreen(self),
             Game.LOSE:platformer.overlays.LoseScreen(self),
             Game.LEVEL_COMPLETE:platformer.overlays.LevelCompleteScreen(self),
-            Game.PAUSE: platformer.overlays.PauseScreen(self)
+            Game.PAUSE: platformer.overlays.PauseScreen(self),
         }
 
         self.hud = platformer.overlays.HUD(self)
@@ -170,6 +172,14 @@ class Game:
                 image = self.locked_door_img if 'code' in data else self.door_img
                 self.interactables.add( platformer.entities.Door(self, location, image, destination, code) )
         
+        if 'signs' in self.data:    
+            for data in self.data['signs']:
+                location = data['loc']
+                message = data['message']
+                self.interactables.add( platformer.entities.Sign(self, location, self.sign_img, message) )
+
+        self.infobox = None
+        
         # Goals
         if 'flag' in self.data:    
             for i, location in enumerate(self.data['flag']):
@@ -213,7 +223,6 @@ class Game:
                 self.complete_level()
                 self.transition_time = settings.LEVEL_TRANSITION_TIME
 
-                
         elif self.current_scene == Game.LEVEL_COMPLETE:
             self.transition_time -= 1
 
@@ -255,7 +264,10 @@ class Game:
             # actual gameplay
             filtered_events.append(event)
 
-        self.hero.act(filtered_events, pressed_keys)
+        if self.current_scene == Game.PLAYING:
+            self.hero.act(filtered_events, pressed_keys)
+        elif self.current_scene == Game.INTERACTING:
+            self.infobox.act(filtered_events, pressed_keys)
      
     def update(self):
         if self.current_scene == Game.PLAYING:
@@ -289,11 +301,13 @@ class Game:
 
         self.hud.draw(self.screen)
 
-        if self.current_scene != Game.PLAYING:
+        if self.infobox is not None:
+            self.infobox.draw(self.screen)
+        elif self.current_scene != Game.PLAYING:
             self.scene_overlays[self.current_scene].draw(self.screen)
 
-        self.grid.draw(self.screen, offset_x, offset_y)
-        self.camera.draw(self.screen)
+            self.grid.draw(self.screen, offset_x, offset_y)
+            self.camera.draw(self.screen)
         
     def play(self):
         while self.running:

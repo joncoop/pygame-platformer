@@ -31,6 +31,7 @@ GRASS_IMG = 'assets/images/tiles/grass_dirt.png'
 BLOCK_IMG = 'assets/images/tiles/block.png'
 DOOR_IMG = 'assets/images/tiles/door.png'
 LOCKED_DOOR_IMG = 'assets/images/tiles/locked_door.png'
+SIGN_IMG = 'assets/images/tiles/sign.png'
 FLAG_IMG = 'assets/images/tiles/flag.png'
 FLAGPOLE_IMG = 'assets/images/tiles/flagpole.png'
 
@@ -55,7 +56,7 @@ TITLE_MUSIC = 'assets/music/calm_happy.ogg'
 MAIN_THEME = 'assets/music/cooking_mania.wav'
 
 # Levels
-STARTING_LEVEL = 5
+STARTING_LEVEL = 6
 
 LEVELS = [
     'assets/levels/world-1.json',
@@ -96,7 +97,8 @@ TERMINAL_VELOCITY = 20
 CONTROLS = {
     'left': pygame.K_LEFT,
     'right': pygame.K_RIGHT,
+    'up': pygame.K_UP,
+    'down': pygame.K_DOWN,
     'jump': pygame.K_SPACE,
-    'interact': pygame.K_UP,
-    'uninteract': pygame.K_DOWN,
+    'interact': pygame.K_e,
 }

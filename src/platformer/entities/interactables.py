@@ -6,6 +6,7 @@ import pygame
 # Local Imports
 import settings
 from .entity import Entity, AnimatedEntity
+from platformer.overlays import SignText, SpeechBubble
 
 
 class Button(AnimatedEntity):
@@ -14,6 +15,10 @@ class Button(AnimatedEntity):
         super().__init__(game, location, image)
 
         self.action = action
+
+    def interact(self, character):
+        # This is different too. A button interacts with the world, not the character.
+        pass
 
 
 class Door(Entity):
@@ -33,31 +38,47 @@ class Door(Entity):
         if self.unlocked:
             character.move_to(self.destination)
 
+        return None
+
 
 class Sign(Entity):
 
-    def __init__(self, game, location, image, message):
+    def __init__(self, game, location, image, text):
         super().__init__(game, location, image)
+        self.text = text
 
-        self.message = message
+    def interact(self, character=None):
+        self.game.infobox = SignText(self.game, self.text) 
+        self.game.current_scene = self.game.INTERACTING     
 
 
 class NPC(Entity):
 
-    def __init__(self, game, location, image, message):
+    def __init__(self, game, location, image, text):
         super().__init__(game, location, image)
 
-        self.message = message
+        self.text = text
+
+    def interact(self, character=None):
+        self.game.infobox = SpeechBubble(self.game, self.text) 
+        self.game.current_scene = self.game.INTERACTING     
+
+    def update(self):
+        pass
 
 
-class Switch(AnimatedEntity):  # similar to button but changes state rather than triggering action, maybe don't need this? button should cover it. but naming?
+class Switch(AnimatedEntity):  # Similar to button but changes state rather than triggering action, maybe don't need this? button should cover it. but naming?
 
     def __init__(self, game, location, image, action):
         super().__init__(game, location, image)
 
         self.action = action
 
+    def interact(self, character):
+        pass
 
+
+# This may be another type of object, interaction mechanics are different
 class Crate(Entity):
 
     def __init__(self, game, location, image):
