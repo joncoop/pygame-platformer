@@ -49,7 +49,7 @@ SPIKEMAN_IMGS = ['assets/images/characters/spikeman_walk1.png',
 
 ''' npcs '''
 SHOPKEEPER_IMG = 'assets/images/characters/character_malePerson_talk.png'
-WIZARD_IMG = 'assets/images/characters/character_malePerson_talk.png'
+WIZARD_IMG = 'assets/images/characters/wizard.png'
 
 # Sounds
 JUMP_SND = 'assets/sounds/jump.wav'
@@ -60,7 +60,7 @@ TITLE_MUSIC = 'assets/music/calm_happy.ogg'
 MAIN_THEME = 'assets/music/cooking_mania.wav'
 
 # Levels
-STARTING_LEVEL = 6
+STARTING_LEVEL = 7
 
 LEVELS = [
     'assets/levels/world-1.json',
@@ -90,7 +90,6 @@ SPIKEMAN_SPEED = 2
 SPIKEBALL_SPEED = 2
 CLOUD_SPEED = 3
 
-
 # Item attributes
 GEM_VALUE = 10
 
@@ -100,10 +99,10 @@ TERMINAL_VELOCITY = 20
 
 # Gameplay settings
 CONTROLS = {
-    'left': pygame.K_LEFT,
-    'right': pygame.K_RIGHT,
-    'up': pygame.K_UP,
-    'down': pygame.K_DOWN,
+    'left': pygame.K_a,
+    'right': pygame.K_d,
+    'up': pygame.K_w,
+    'down': pygame.K_s,
     'jump': pygame.K_SPACE,
     'interact': pygame.K_e,
     'dismiss': pygame.K_ESCAPE,

@@ -80,8 +80,7 @@ class InfoBox:
         for event in events:
             if event.type == pygame.KEYDOWN:
                 if event.key == settings.CONTROLS['dismiss']:
-                    self.game.infobox = None
-                    self.game.current_scene = self.game.PLAYING
+                    self.game.close_infobox()
                 elif event.key == settings.CONTROLS['right'] and self.current_page < len(self.pages) - 1:
                     self.current_page += 1
                     self.render_current_page()

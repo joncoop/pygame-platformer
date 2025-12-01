@@ -48,8 +48,7 @@ class Sign(Entity):
         self.text = text
 
     def interact(self, character=None):
-        self.game.infobox = SignText(self.game, self.text) 
-        self.game.current_scene = self.game.INTERACTING     
+        self.game.open_infobox(SignText(self.game, self.text))  
 
 
 class NPC(Entity):
@@ -60,10 +59,10 @@ class NPC(Entity):
         self.text = text
 
     def interact(self, character=None):
-        self.game.infobox = SpeechBubble(self.game, self.text) 
-        self.game.current_scene = self.game.INTERACTING     
-
+        self.game.open_infobox(SpeechBubble(self.game, self.text))
+ 
     def update(self):
+        # character might walk or be animated
         pass
 
 
@@ -78,47 +77,4 @@ class Switch(AnimatedEntity):  # Similar to button but changes state rather than
         pass
 
 
-# This may be another type of object, interaction mechanics are different
-class Crate(Entity):
 
-    def __init__(self, game, location, image):
-        super().__init__(game, location, image)
-
-    def get_connected_crates(self, direction, connected=None):
-        if connected is None:
-            connected = []
-        connected.append(self)
-
-        for crate in self.game.crates:
-            if direction > 0 and self.rect.right == crate.rect.left and abs(self.rect.y - crate.rect.y) <= settings.GRID_SIZE // 2:
-                crate.get_connected_crates(direction, connected)
-            elif direction < 0 and self.rect.left == crate.rect.right and abs(self.rect.y - crate.rect.y) <= settings.GRID_SIZE // 2:
-                crate.get_connected_crates(direction, connected)
-
-            if self.rect.top == crate.rect.bottom and abs(self.rect.x - crate.rect.x) <= settings.GRID_SIZE // 2:
-                crate.get_connected_crates(direction, connected)
-
-        return connected
-
-    def push(self, hero):
-        direction = 1 if hero.v_x > 0 else -1
-
-        connected_crates = self.get_connected_crates(direction)
-
-        for crate in connected_crates:
-            crate.v_x = hero.v_x 
-    
-    def update(self):
-        self.apply_gravity()
-        self.move_x()
-        hit_platform_x = self.check_platforms_x()
-        self.move_y()
-        self.check_platforms_y()
-        self.check_world_edges()
-
-        pushing = pygame.sprite.spritecollide(self, self.game.player, False)
-        if not pushing:
-            self.v_x = 0
-
-        if hit_platform_x:
-            self.v_x = 0

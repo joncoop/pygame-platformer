@@ -244,6 +244,14 @@ class Game:
                 else:
                     self.win()
 
+    def open_infobox(self, infobox):
+        self.infobox = infobox
+        self.current_scene = Game.INTERACTING
+
+    def close_infobox(self):
+        self.infobox = None
+        self.current_scene = Game.PLAYING
+
     def process_input(self):
         pressed_keys = pygame.key.get_pressed()
         filtered_events = []
