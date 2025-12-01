@@ -18,12 +18,17 @@ class InfoBox:
     LINE_SPACING = 6
     PADDING = 24
     FONT_SIZE = 48
+    DELIMETER = "|"
 
     def __init__(self, game, message, **kwargs):
         self.game = game
-        self.message = message
+        if isinstance(message, str):
+            self.pages = [message]
+        elif isinstance(message, list):
+            self.pages = message
 
-        # Instance variables with defaults from class constants
+        self.current_page = 0
+   
         self.background_color = kwargs.get("background_color", self.BOX_COLOR)
         self.border_color = kwargs.get("border_color", self.BORDER_COLOR)
         self.border_radius = kwargs.get("border_radius", self.BORDER_RADIUS)
@@ -36,9 +41,31 @@ class InfoBox:
         font_family = kwargs.get("font_family", settings.SECONDARY_FONT)
         font_size = kwargs.get("font_size", self.FONT_SIZE)
         self.font = pygame.font.Font(font_family, font_size)
-        
-        # Pre-render wrapped lines
-        self.lines = self.wrap_text(message, self.font, self.max_width)
+
+        self.render_current_page()     
+
+    def wrap_text(self, text, font, max_width):
+        words = text.split()
+        lines = []
+        current = []
+
+        for word in words:
+            test = " ".join(current + [word])
+            if font.size(test)[0] <= max_width - self.padding * 2:
+                current.append(word)
+            else:
+                lines.append(" ".join(current))
+                current = [word]
+
+        if current:
+            lines.append(" ".join(current))
+
+        return lines
+       
+    def render_current_page(self):
+        # Wrap text to box size
+        text = self.pages[self.current_page].strip()
+        self.lines = self.wrap_text(text, self.font, self.max_width)
 
         # Compute box size from lines
         total_text_height = len(self.lines) * self.font.get_height() + (len(self.lines)-1) * self.line_spacing
@@ -49,23 +76,18 @@ class InfoBox:
         self.rect = pygame.Rect(0, 0, self.box_width, self.box_height)
         self.rect.center = (settings.SCREEN_WIDTH // 2, settings.SCREEN_HEIGHT // 2)
 
-    def wrap_text(self, text, font, max_width):
-        words = text.split()
-        lines = []
-        current = []
-
-        for word in words:
-            test = " ".join(current + [word])
-            if self.font.size(test)[0] <= max_width - self.PADDING * 2:
-                current.append(word)
-            else:
-                lines.append(" ".join(current))
-                current = [word]
-
-        if current:
-            lines.append(" ".join(current))
-
-        return lines
+    def act(self, events, pressed_keys):
+        for event in events:
+            if event.type == pygame.KEYDOWN:
+                if event.key == settings.CONTROLS['dismiss']:
+                    self.game.infobox = None
+                    self.game.current_scene = self.game.PLAYING
+                elif event.key == settings.CONTROLS['right'] and self.current_page < len(self.pages) - 1:
+                    self.current_page += 1
+                    self.render_current_page()
+                elif event.key == settings.CONTROLS['left'] and self.current_page > 0:
+                    self.current_page -= 1
+                    self.render_current_page()
 
     def update(self):
         pass
@@ -76,8 +98,8 @@ class InfoBox:
         pygame.draw.rect(surface, self.border_color, self.rect, width=self.border_thickness, border_radius=self.border_radius)
         
         # Draw each line of text
-        x = self.rect.x + self.PADDING
-        y = self.rect.y + self.PADDING
+        x = self.rect.x + self.padding
+        y = self.rect.y + self.padding
         
         for line in self.lines:
             text_surf = self.font.render(line, True, self.text_color)
@@ -86,38 +108,23 @@ class InfoBox:
 
 
 class SignText(InfoBox):
-    def __init__(self, game, message):
+    def __init__(self, game, text):
         super().__init__(
             game, 
-            message,
+            text,
             font_size=48,
             background_color=(174, 118, 64),
             border_color=(115, 97, 80),
             text_color=(255, 255, 255)
         )
 
-    def act(self, events, pressed_keys):
-        for event in events:
-            if event.type == pygame.KEYDOWN:
-                if event.key == settings.CONTROLS['interact']:
-                    self.game.infobox = None
-                    self.game.current_scene = self.game.PLAYING
 
+class SpeechBubble(InfoBox):
 
-class SpeechBubble:
-
-    def __init__(self, game, dialog, npc):
+    def __init__(self, game, text, npc=None):
         super().__init__(
             game, 
-            dialog
+            text,
+            font_size=32
         )
-        self.current_page = 0
-
-    def act(self, events, pressed_keys):
-        for event in events:
-            if event.type == pygame.KEYDOWN:
-                if event.key == settings.CONTROLS['interact']:
-                    self.game.infobox = None
-                    self.game.current_scene = self.game.PLAYING
-                elif event.key == settings.CONTROLS['right']:
-                    self.current_page += 1
+        self.npc = npc  # Use for positioning speech bubble later

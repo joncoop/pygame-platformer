@@ -47,6 +47,10 @@ SPIKEBALL_IMGS = ['assets/images/characters/spikeball1.png',
 SPIKEMAN_IMGS = ['assets/images/characters/spikeman_walk1.png',
                  'assets/images/characters/spikeman_walk2.png']
 
+''' npcs '''
+SHOPKEEPER_IMG = 'assets/images/characters/character_malePerson_talk.png'
+WIZARD_IMG = 'assets/images/characters/character_malePerson_talk.png'
+
 # Sounds
 JUMP_SND = 'assets/sounds/jump.wav'
 GEM_SND = 'assets/sounds/collect_point.wav'
@@ -86,6 +90,7 @@ SPIKEMAN_SPEED = 2
 SPIKEBALL_SPEED = 2
 CLOUD_SPEED = 3
 
+
 # Item attributes
 GEM_VALUE = 10
 
@@ -101,4 +106,5 @@ CONTROLS = {
     'down': pygame.K_DOWN,
     'jump': pygame.K_SPACE,
     'interact': pygame.K_e,
+    'dismiss': pygame.K_ESCAPE,
 }

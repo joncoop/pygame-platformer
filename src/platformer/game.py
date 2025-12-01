@@ -74,6 +74,8 @@ class Game:
         self.door_img = pygame.image.load(settings.DOOR_IMG).convert_alpha()
         self.locked_door_img = pygame.image.load(settings.LOCKED_DOOR_IMG).convert_alpha()
         self.sign_img = pygame.image.load(settings.SIGN_IMG).convert_alpha()
+        self.shopkeeper_img = pygame.image.load(settings.SHOPKEEPER_IMG).convert_alpha()
+        self.wizard_img = pygame.image.load(settings.WIZARD_IMG).convert_alpha()
 
         # Goal
         self.flag_img = pygame.image.load(settings.FLAG_IMG).convert_alpha()
@@ -178,6 +180,16 @@ class Game:
                 message = data['message']
                 self.interactables.add( platformer.entities.Sign(self, location, self.sign_img, message) )
 
+        if 'npcs' in self.data:    
+            for data in self.data['npcs']:
+                location = data['loc']
+                message = data['message']
+                if data['type'] == 'shopkeeper':
+                    image = self.shopkeeper_img
+                elif data['type'] == 'wizard':
+                    image = self.wizard_img
+                self.interactables.add( platformer.entities.NPC(self, location, image, message) )
+
         self.infobox = None
         
         # Goals
@@ -276,28 +288,18 @@ class Game:
         self.check_status()
         self.camera.update()
 
-    """ Keep this here for tutorial planning.
-    def get_offsets(self):
-        if self.hero.rect.centerx < settings.SCREEN_WIDTH // 2:
-            offset_x = 0
-        elif self.hero.rect.centerx > self.world_width - settings.SCREEN_WIDTH // 2:
-            offset_x = self.world_width - settings.SCREEN_WIDTH
-        else:
-            offset_x = self.hero.rect.centerx - settings.SCREEN_WIDTH // 2
-    
-        return offset_x, 0
-    """
-
     def render(self):
         self.screen.fill(settings.SKY_BLUE)
         #self.all_sprites.draw(self.screen)
 
         offset_x, offset_y = self.camera.get_offsets()
 
-        for sprite in self.all_sprites:
-            x = sprite.rect.x - offset_x
-            y = sprite.rect.y - offset_y
-            self.screen.blit(sprite.image, [x, y])
+        for group in [self.platforms, self.interactables, self.items, self.enemies, self.goals, self.players]:
+            #for sprite in self.all_sprites:
+            for sprite in group:
+                x = sprite.rect.x - offset_x
+                y = sprite.rect.y - offset_y
+                self.screen.blit(sprite.image, [x, y])
 
         self.hud.draw(self.screen)
 

@@ -17,8 +17,12 @@
         [34, 5]
     ],
     "npcs": [
-        {"type": "shopkeeper", "loc": [11, 7], "text": ["Welcome!"]},
-        {"type": "wizard", "loc": [25, 7], "text": ["Wanna see some magic?", "Go find the potion hidden behind the old oak tree."]}
+        {"type": "shopkeeper", "loc": [11, 7], "message": "Welcome!"},
+        {"type": "wizard", "loc": [25, 7], "message": [
+            "Wanna see some magic?",
+            "Go find the potion hidden behind the old oak tree",
+            "Good luck!"
+        ]}
     ],
     "flag": [
         [37, 3], [37, 4], [37, 5], [37, 6], [37, 7]
