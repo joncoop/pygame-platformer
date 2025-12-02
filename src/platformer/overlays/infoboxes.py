@@ -18,7 +18,6 @@ class InfoBox:
     LINE_SPACING = 6
     PADDING = 24
     FONT_SIZE = 48
-    DELIMETER = "|"
 
     def __init__(self, game, message, **kwargs):
         self.game = game

@@ -68,7 +68,6 @@ class Spikeman(AnimatedEntity):
         self.check_platforms_y()
         at_world_edge = self.check_world_edges()
         at_platform_edge = self.check_platform_edges()
-        self.set_animation_key()
         self.animate()
 
         if at_world_edge or hit_platform_x or at_platform_edge:

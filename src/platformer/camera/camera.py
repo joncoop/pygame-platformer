@@ -18,10 +18,10 @@ class ScrollingCamera:
 
         self.last_position = self.target.rect.center
         self.focus = self.last_position
-        self.visibile = False
+        self.visible = False
 
     def toggle(self):
-        self.visibile = not self.visibile
+        self.visible = not self.visible
 
     def get_offsets(self):
         #x, y = self.target.rect.center
@@ -47,7 +47,7 @@ class ScrollingCamera:
         return offset_x, offset_y
         
     def draw(self, surface):
-        if self.visibile:
+        if self.visible:
             offset_x, offset_y = self.get_offsets()
             screen_width = self.surface.get_width()
             screen_height = self.surface.get_height()

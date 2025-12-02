@@ -20,7 +20,7 @@ class Hero(AnimatedEntity):
         self.max_hearts = settings.HERO_MAX_HEARTS
         self.escape_time = 0
         self.facing_right = True
-        self.respawn_point = location  # actually gets set in load level, location is None at instantiation
+        self.respawn_point = location  # actually gets set in load level, location is None at instantiation (should this just be saved in game?)
         self.key_chain = []
     
     def act(self, events, pressed_keys):
@@ -76,10 +76,10 @@ class Hero(AnimatedEntity):
 
         if self.escape_time == 0:
             for enemy in hits:
-                self.escape_time = settings.HERO_EXCAPE_TIME
+                self.escape_time = settings.HERO_ESCAPE_TIME
                 self.hearts -= 1
 
-                bouncex = 15  # Magic number alert!
+                bouncex = 15  # Magic number alert! (Also isn't detecting which way the collision occured.)
                 bouncey = -5
                 if self.rect.centerx < enemy.rect.centerx:
                     bouncex *= -1

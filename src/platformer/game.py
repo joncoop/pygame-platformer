@@ -211,7 +211,6 @@ class Game:
     def render(self):
         offset_x, offset_y = self.camera.get_offsets()
         self.world.draw(self.screen, offset_x, offset_y)
-
         self.hud.draw(self.screen)
 
         if self.infobox is not None:
@@ -219,8 +218,8 @@ class Game:
         elif self.current_scene != Game.PLAYING:
             self.scene_overlays[self.current_scene].draw(self.screen)
 
-            self.grid.draw(self.screen, offset_x, offset_y)
-            self.camera.draw(self.screen)
+        self.grid.draw(self.screen, offset_x, offset_y)
+        self.camera.draw(self.screen)
         
     def play(self):
         while self.running:

@@ -6,18 +6,17 @@ import pygame
 
 # Local Imports
 import settings
-from platformer.entities.hero import Hero
 from platformer.entities.tiles import Tile
 from platformer.entities.enemies import Cloud, Spikeball, Spikeman
 from platformer.entities.items import Gem, Heart, Key
-from platformer.entities.interactables import Door, Sign, NPC
+from platformer.entities.interactables import Door, NPC, Sign
 
 
 class World:
     
     def __init__(self, game, data):
         self.game = game
-        self.data = data  # could also pass in file and load in load_level
+        self.data = data  # could also pass in file and load in load_level (but then loading assets is in multiple places)
 
         # Sprite groups
         self.players = pygame.sprite.Group()

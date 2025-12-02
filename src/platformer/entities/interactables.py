@@ -26,8 +26,6 @@ class Door(Entity):
         if self.unlocked:
             character.move_to(self.destination)
 
-        return None
-
 
 class Sign(Entity):
 
