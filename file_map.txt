@@ -2,6 +2,7 @@ platformer/
 │
 ├── LICENSE.txt
 ├── main.py
+├── README.md
 ├── requirements.txt
 ├── settings.py
 │

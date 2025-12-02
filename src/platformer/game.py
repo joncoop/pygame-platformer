@@ -8,11 +8,8 @@ import pygame
 import settings
 from platformer.camera import ScrollingCamera
 from platformer.world import World
-from platformer.overlays import (
-    TitleScreen, WinScreen, LoseScreen, 
-    LevelCompleteScreen, PauseScreen, HUD, Grid
-)
-from platformer.entities.hero import Hero
+from platformer.overlays import TitleScreen, WinScreen, LoseScreen, LevelCompleteScreen, PauseScreen, HUD, Grid
+from platformer.entities import Hero
 
 
 # Main game class 

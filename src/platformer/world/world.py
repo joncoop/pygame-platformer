@@ -34,10 +34,6 @@ class World:
         self.world_width = self.data['width'] * settings.GRID_SIZE
         self.world_height = self.data['height'] * settings.GRID_SIZE
 
-        # Create hero (or get existing hero from Game)
-        if not hasattr(self.game, 'hero'):
-            self.game.hero = Hero(self.game, None, self.game.hero_animations, settings.CONTROLS)
-
         self.hero = self.game.hero
         self.players.add(self.hero)
         self.hero.move_to(self.data['start'])
@@ -113,7 +109,7 @@ class World:
                 else:
                     self.goals.add( Tile(self.game, location, self.game.flagpole_img) ) 
 
-        # Make one big sprite group for easy updating and drawing
+        # Make one big sprite group for easy updating
         self.all_sprites.add(self.players, self.platforms, self.enemies, self.items, self.interactables, self.goals)
     
     def update(self):
@@ -122,6 +118,7 @@ class World:
     def draw(self, surface, offset_x, offset_y):
         surface.fill(settings.SKY_BLUE)
 
+        # Draw sprites with desired layering
         for group in [self.platforms, self.interactables, self.items, self.enemies, self.goals, self.players]:
             for sprite in group:
                 x = sprite.rect.x - offset_x
