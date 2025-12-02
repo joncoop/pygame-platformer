@@ -9,18 +9,6 @@ from .entity import Entity, AnimatedEntity
 from platformer.overlays import SignText, SpeechBubble
 
 
-class Button(AnimatedEntity):
-
-    def __init__(self, game, location, image, action):
-        super().__init__(game, location, image)
-
-        self.action = action
-
-    def interact(self, character):
-        # This is different too. A button interacts with the world, not the character.
-        pass
-
-
 class Door(Entity):
 
     def __init__(self, game, location, image, destination, code=None):
@@ -66,7 +54,19 @@ class NPC(Entity):
         pass
 
 
-class Switch(AnimatedEntity):  # Similar to button but changes state rather than triggering action, maybe don't need this? button should cover it. but naming?
+class Button(AnimatedEntity):
+
+    def __init__(self, game, location, image, action):
+        super().__init__(game, location, image)
+
+        self.action = action
+
+    def interact(self, character):
+        # This is different too. A button interacts with the world, not the character.
+        pass
+
+
+class Switch(AnimatedEntity):
 
     def __init__(self, game, location, image, action):
         super().__init__(game, location, image)

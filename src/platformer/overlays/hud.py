@@ -30,7 +30,7 @@ class HUD:
         rect.topleft = 16, 56
         surface.blit(text, rect)
 
-        text = self.primary_font.render(f"Hearts: {self.game.hero.hearts}", True, settings.WHITE)
+        text = self.primary_font.render(f"Hearts: {self.game.world.hero.hearts}", True, settings.WHITE)
         rect = text.get_rect()
         rect.topleft = 16, 96
         surface.blit(text, rect)

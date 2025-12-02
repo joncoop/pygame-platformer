@@ -5,10 +5,14 @@ import json
 import pygame
 
 # Local
-import platformer.camera
-import platformer.entities
-import platformer.overlays
 import settings
+from platformer.camera import ScrollingCamera
+from platformer.world import World
+from platformer.overlays import (
+    TitleScreen, WinScreen, LoseScreen, 
+    LevelCompleteScreen, PauseScreen, HUD, Grid
+)
+from platformer.entities.hero import Hero
 
 
 # Main game class 
@@ -83,135 +87,46 @@ class Game:
 
     def make_overlays(self):
         self.scene_overlays = {
-            Game.START: platformer.overlays.TitleScreen(self),
-            Game.WIN: platformer.overlays.WinScreen(self),
-            Game.LOSE:platformer.overlays.LoseScreen(self),
-            Game.LEVEL_COMPLETE:platformer.overlays.LevelCompleteScreen(self),
-            Game.PAUSE: platformer.overlays.PauseScreen(self),
+            Game.START: TitleScreen(self),
+            Game.WIN: WinScreen(self),
+            Game.LOSE: LoseScreen(self),
+            Game.LEVEL_COMPLETE: LevelCompleteScreen(self),
+            Game.PAUSE: PauseScreen(self),
         }
 
-        self.hud = platformer.overlays.HUD(self)
-        self.grid = platformer.overlays.Grid(self)
+        self.hud = HUD(self)
+        self.grid = Grid(self)
         
     def new_game(self):
-        # Make the hero here so it persists across levels
-        self.players = pygame.sprite.Group()
-        self.hero = platformer.entities.Hero(self, None, self.hero_animations, settings.CONTROLS)
-        self.players.add(self.hero)
-
-        # Go to first level
+        self.hero = Hero(self, None, self.hero_animations, settings.CONTROLS)
         self.current_scene = Game.START
         self.level = settings.STARTING_LEVEL
         self.score = 0
         self.load_level()
     
     def load_level(self):
-        # Make sprite groups
-        self.platforms = pygame.sprite.Group()
-        self.enemies = pygame.sprite.Group()
-        self.items = pygame.sprite.Group()
-        self.interactables = pygame.sprite.Group()
-        self.goals = pygame.sprite.Group()
-
         # Load the level data
-        first_level = settings.LEVELS[self.level - 1]
-        with open(first_level) as f:
-            self.data = json.load(f)
+        current_level_file = settings.LEVELS[self.level - 1]
+        with open(current_level_file) as f: 
+            level_data = json.load(f)
 
         # World settings
-        self.world_width = self.data['width'] * settings.GRID_SIZE
-        self.world_height = self.data['height'] * settings.GRID_SIZE
-        self.camera = platformer.camera.ScrollingCamera(self.screen, [self.world_width, self.world_height], self.hero, settings.CAMERA_LAG)
-
-        # Position the hero
-        location = self.data['start']
-        self.hero.move_to(location)
-        self.hero.respawn_point = location
-
-        # Add the platforms
-        if 'grass' in self.data:   
-            for location in self.data['grass']:
-                self.platforms.add( platformer.entities.Tile(self, location, self.grass_dirt_img) )
-
-        if 'blocks' in self.data:    
-            for location in self.data['blocks']:
-                self.platforms.add( platformer.entities.Tile(self, location, self.block_img) )
+        self.world = World(self, level_data)
+        self.world_width = self.world.world_width
+        self.world_height = self.world.world_height
+        self.camera = ScrollingCamera(self.screen, [self.world_width, self.world_height], self.hero, settings.CAMERA_LAG)
         
-        # Add the enemies
-        if 'clouds' in self.data:    
-            for location in self.data['clouds']:
-                self.enemies.add( platformer.entities.Cloud(self, location, self.cloud_animations) )
-        
-        if 'spikeballs' in self.data:    
-            for location in self.data['spikeballs']:
-                self.enemies.add( platformer.entities.Spikeball(self, location, self.spikeball_animations) )
-        
-        if 'spikemen' in self.data:    
-            for location in self.data['spikemen']:
-                self.enemies.add( platformer.entities.Spikeman(self, location, self.spikeman_animations) )
-        
-        # Items
-        if 'gems' in self.data:    
-            for location in self.data['gems']:
-                self.items.add( platformer.entities.Gem(self, location, self.gem_img) )
-        
-        if 'hearts' in self.data:    
-            for location in self.data['hearts']:
-                self.items.add( platformer.entities.Heart(self, location, self.heart_img) )
-        
-        if 'keys' in self.data:    
-            for data in self.data['keys']:
-                location = data['loc']
-                code = data['code'] if 'code' in data else None                
-                self.items.add( platformer.entities.Key(self, location, self.key_img, code) )
-        
-        # Interactables
-        if 'doors' in self.data:    
-            for data in self.data['doors']:
-                location = data['loc']
-                destination = data['dest']
-                code = data['code'] if 'code' in data else None
-                image = self.locked_door_img if 'code' in data else self.door_img
-                self.interactables.add( platformer.entities.Door(self, location, image, destination, code) )
-        
-        if 'signs' in self.data:    
-            for data in self.data['signs']:
-                location = data['loc']
-                message = data['message']
-                self.interactables.add( platformer.entities.Sign(self, location, self.sign_img, message) )
-
-        if 'npcs' in self.data:    
-            for data in self.data['npcs']:
-                location = data['loc']
-                message = data['message']
-                if data['type'] == 'shopkeeper':
-                    image = self.shopkeeper_img
-                elif data['type'] == 'wizard':
-                    image = self.wizard_img
-                self.interactables.add( platformer.entities.NPC(self, location, image, message) )
-
+        # Infobox
         self.infobox = None
         
-        # Goals
-        if 'flag' in self.data:    
-            for i, location in enumerate(self.data['flag']):
-                if i == 0:
-                    self.goals.add( platformer.entities.Tile(self, location, self.flag_img) )
-                else:
-                    self.goals.add( platformer.entities.Tile(self, location, self.flagpole_img) ) 
-
-        # Make one big sprite group for easy updating and drawing
-        self.all_sprites = pygame.sprite.Group()
-        self.all_sprites.add(self.players, self.platforms, self.enemies, self.items, self.interactables, self.goals)
-
-    def start_level(self):
-        self.current_scene = Game.PLAYING
-
     def toggle_pause(self):
         if self.current_scene == Game.PLAYING:
             self.current_scene = Game.PAUSE
         elif self.current_scene == Game.PAUSE:
             self.current_scene = Game.PLAYING
+
+    def start_level(self):
+        self.current_scene = Game.PLAYING
 
     def complete_level(self):
         self.current_scene = Game.LEVEL_COMPLETE
@@ -229,9 +144,9 @@ class Game:
 
     def check_status(self):
         if self.current_scene == Game.PLAYING:
-            if not self.hero.is_alive:
+            if not self.world.hero.is_alive:
                 self.lose()
-            if self.hero.reached_goal:
+            if self.world.hero.reached_goal:
                 self.complete_level()
                 self.transition_time = settings.LEVEL_TRANSITION_TIME
 
@@ -261,14 +176,14 @@ class Game:
                 self.running = False
 
             elif event.type == pygame.KEYDOWN:
-                # for editing
+                # for level editing
                 if event.key == pygame.K_g:
                     self.grid.toggle()
                 elif event.key == pygame.K_c:
                     self.camera.toggle()
 
                 # start/restart/pause
-                elif self.current_scene == Game.START:
+                if self.current_scene == Game.START:
                     if event.key == pygame.K_SPACE:
                         self.start_level()
                         continue
@@ -285,29 +200,20 @@ class Game:
             filtered_events.append(event)
 
         if self.current_scene == Game.PLAYING:
-            self.hero.act(filtered_events, pressed_keys)
+            self.world.hero.act(filtered_events, pressed_keys)
         elif self.current_scene == Game.INTERACTING:
             self.infobox.act(filtered_events, pressed_keys)
      
     def update(self):
         if self.current_scene == Game.PLAYING:
-            self.all_sprites.update()
+            self.world.update()
 
         self.check_status()
         self.camera.update()
 
     def render(self):
-        self.screen.fill(settings.SKY_BLUE)
-        #self.all_sprites.draw(self.screen)
-
         offset_x, offset_y = self.camera.get_offsets()
-
-        for group in [self.platforms, self.interactables, self.items, self.enemies, self.goals, self.players]:
-            #for sprite in self.all_sprites:
-            for sprite in group:
-                x = sprite.rect.x - offset_x
-                y = sprite.rect.y - offset_y
-                self.screen.blit(sprite.image, [x, y])
+        self.world.draw(self.screen, offset_x, offset_y)
 
         self.hud.draw(self.screen)
 

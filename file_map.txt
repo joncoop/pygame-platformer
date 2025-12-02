@@ -40,5 +40,3 @@ platformer/
         └── world/
             ├── __init__.py
             └── world.py
-
-(world seems like a good idea, not impelmeted yet.)

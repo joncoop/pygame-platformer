@@ -60,7 +60,7 @@ TITLE_MUSIC = 'assets/music/calm_happy.ogg'
 MAIN_THEME = 'assets/music/cooking_mania.wav'
 
 # Levels
-STARTING_LEVEL = 7
+STARTING_LEVEL = 1
 
 LEVELS = [
     'assets/levels/world-1.json',
@@ -71,7 +71,7 @@ LEVELS = [
     'assets/levels/world-6.json',
     'assets/levels/world-7.json',
     'assets/levels/world-8.json',
-    'assets/levels/world-9.json'
+    'assets/levels/world-9.json',
     'assets/levels/world-10.json'
 ]
 

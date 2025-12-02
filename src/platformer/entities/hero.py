@@ -54,15 +54,10 @@ class Hero(AnimatedEntity):
             self.vy = -1 * settings.HERO_JUMP_POWER
 
     def interact(self):
-        hits = pygame.sprite.spritecollide(self, self.game.interactables, False)
+        hits = pygame.sprite.spritecollide(self, self.game.world.interactables, False)
 
         for interactable in hits:
-            self.is_interacting = True
             interactable.interact(self)
-
-    def uninteract(self):
-        self.is_interacting = False
-        self.game.infobox = None
 
     @property
     def can_jump(self):
@@ -74,10 +69,10 @@ class Hero(AnimatedEntity):
 
     @property
     def reached_goal(self):
-        return pygame.sprite.spritecollideany(self, self.game.goals)  # No collision resolution here, let hero overlap flag
+        return pygame.sprite.spritecollideany(self, self.game.world.goals)  # No collision resolution here, let hero overlap flag
     
     def check_enemies(self):
-        hits = pygame.sprite.spritecollide(self, self.game.enemies, False)
+        hits = pygame.sprite.spritecollide(self, self.game.world.enemies, False)
 
         if self.escape_time == 0:
             for enemy in hits:
@@ -96,7 +91,7 @@ class Hero(AnimatedEntity):
             self.escape_time -= 1
     
     def check_items(self):
-        hits = pygame.sprite.spritecollide(self, self.game.items, True)
+        hits = pygame.sprite.spritecollide(self, self.game.world.items, True)
     
         for item in hits:
             item.apply(self)

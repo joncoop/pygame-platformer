@@ -1,5 +1,5 @@
 {
-    "title": "Just keep swimming",
+    "title": "Get on up! (The ladders) - Possibly introduce vertical scrolling and a nifty hidden area above the level",
     "width": 40,
     "height": 9,
     "start": [3, 7],
@@ -20,8 +20,10 @@
     "flag": [
         [37, 3], [37, 4], [37, 5], [37, 6], [37, 7]
     ],
-    "npcs": [
-        {"type": "shopkeeper", "loc": [10, 7], "text": "Welcome!"},
-        {"type": "wizard", "loc": [25, 7], "text": "Uh, oh. It's magic."}
+    "ladders": [
+
+    ],
+    "ladder_tops": [
+
     ]
 }

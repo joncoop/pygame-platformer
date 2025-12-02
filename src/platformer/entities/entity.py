@@ -30,7 +30,7 @@ class Entity(pygame.sprite.Sprite):
     @property
     def on_platform(self):
         self.rect.y += 1
-        hits = pygame.sprite.spritecollide(self, self.game.platforms, False)
+        hits = pygame.sprite.spritecollide(self, self.game.world.platforms, False)
         self.rect.y -= 1
 
         return len(hits) > 0
@@ -51,7 +51,7 @@ class Entity(pygame.sprite.Sprite):
         self.vx *= -1
 
     def check_platforms_x(self):
-        hits = pygame.sprite.spritecollide(self, self.game.platforms, False)
+        hits = pygame.sprite.spritecollide(self, self.game.world.platforms, False)
 
         for platform in hits:
             if self.vx > 0:
@@ -62,7 +62,7 @@ class Entity(pygame.sprite.Sprite):
         return len(hits) > 0
 
     def check_platforms_y(self):
-        hits = pygame.sprite.spritecollide(self, self.game.platforms, False)
+        hits = pygame.sprite.spritecollide(self, self.game.world.platforms, False)
 
         for platform in hits:
             if self.vy > 0:
@@ -78,7 +78,7 @@ class Entity(pygame.sprite.Sprite):
         at_edge = True
 
         self.rect.y +=  1
-        hits = pygame.sprite.spritecollide(self, self.game.platforms, False)
+        hits = pygame.sprite.spritecollide(self, self.game.world.platforms, False)
         self.rect.y -= 1
 
         for platform in hits:
@@ -97,14 +97,14 @@ class Entity(pygame.sprite.Sprite):
         if self.rect.left < 0:
             self.rect.left = 0
             hit_edge = True
-        elif self.rect.right > self.game.world_width:
-            self.rect.right = self.game.world_width
+        elif self.rect.right > self.game.world.world_width:
+            self.rect.right = self.game.world.world_width
             hit_edge = True
 
         return hit_edge
     
     def check_world_bottom(self):
-        return self.rect.top > self.game.world_height
+        return self.rect.top > self.game.world.world_height
 
 
 class AnimatedEntity(Entity):

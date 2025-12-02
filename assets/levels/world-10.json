@@ -1,5 +1,5 @@
 {
-    "title": "Water Wonderful World",
+    "title": "Those darn crates",
     "width": 40,
     "height": 9,
     "start": [3, 7],
@@ -20,10 +20,7 @@
     "flag": [
         [37, 3], [37, 4], [37, 5], [37, 6], [37, 7]
     ],
-    "water": [
-
-    ],
-    "water_tops": [
+    "crates": [
 
     ]
 }
