@@ -1,3 +1,24 @@
+"""
+Definition:
+Abstract base classes providing core position, movement, collision, and optional
+animation support for all game objects. These classes are never instantiated
+directly; only their subclasses are used in the game.
+
+Examples of subclasses:
+- Hero and enemies
+- NPCs
+- Items and interactables (for positioning and collision)
+- Platforms, decorative tiles, and triggers
+
+Responsibilities:
+- Track position and velocity
+- Handle collisions with platforms and world bounds
+- Apply gravity and movement logic
+- Provide a framework for animations (AnimatedEntity subclass)
+
+Trigger: None. These classes provide foundational behavior for derived objects.
+"""
+
 # Standard Library Imports
 
 # Third-Party Imports

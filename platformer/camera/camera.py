@@ -1,3 +1,19 @@
+"""
+Definition:
+Camera system that tracks a target sprite and determines which part of the world
+is visible on screen.
+
+Responsibilities:
+- Calculate offset coordinates to render the world relative to a moving target (usually the player).
+- Support smooth following with adjustable lag.
+- Optionally render debug visuals (target rect, focus crosshairs, screen midlines).
+
+Trigger / Usage:
+- Updated each frame during gameplay.
+- Offsets are applied when drawing world sprites to ensure correct screen positioning.
+- Can be toggled visible for debugging purposes.
+"""
+
 # Standard Library Imports
 import math
 

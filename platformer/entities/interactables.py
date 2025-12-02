@@ -1,3 +1,16 @@
+"""
+Definition:
+Objects that modify the state of the world or provide information to the player. Activated using the interact key.
+
+Examples:
+- Doors (change levels or locations, may require keys)
+- Switches or Buttons (trigger world changes)
+- Signs (display text)
+- NPCs (display speech bubbles or messages)
+
+Trigger: Player presses the interact key while overlapping the object.
+"""
+
 # Standard Library Imports
 
 # Third-Party Imports

@@ -1,3 +1,18 @@
+"""
+Definition:
+The controllable player character. Handles input, movement, physics, health, and interactions with the world.
+
+Examples:
+- Walking, running, jumping
+- Collecting items
+- Interacting with doors, NPCs, and switches
+- Taking damage from enemies
+
+Trigger:
+- Responds to player input each frame.
+- Collision and overlap checks occur automatically in update().
+"""
+
 # Standard Library Imports
 
 # Third-Party Imports
@@ -22,6 +37,7 @@ class Hero(AnimatedEntity):
         self.facing_right = True
         self.respawn_point = location  # actually gets set in load level, location is None at instantiation (should this just be saved in game?)
         self.key_chain = []
+        self.on_ladder = False
     
     def act(self, events, pressed_keys):
         if pressed_keys[self.controls['left']]:

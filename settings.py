@@ -1,3 +1,20 @@
+"""
+Global configuration and assets for the game.
+
+This module centralizes constants, file paths, and default values used throughout
+the game. It includes:
+
+- Window settings (screen size, grid size, FPS, camera lag)
+- Colors and fonts
+- File paths for images, sounds, and music
+- Level configuration and starting level
+- Default character attributes and physics
+- Gameplay controls mapping
+- Item and enemy properties
+
+No game logic is implemented here; this module is strictly for configuration.
+"""
+
 # Third-party imports
 import pygame
 
@@ -32,7 +49,7 @@ BLOCK_IMG = 'assets/images/tiles/block.png'
 DOOR_IMG = 'assets/images/tiles/door.png'
 LOCKED_DOOR_IMG = 'assets/images/tiles/locked_door.png'
 SIGN_IMG = 'assets/images/tiles/sign.png'
-FLAG_IMG = 'assets/images/tiles/flag.png'
+FLAG_IMGS = ['assets/images/tiles/flag.png']
 FLAGPOLE_IMG = 'assets/images/tiles/flagpole.png'
 
 ''' items '''

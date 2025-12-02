@@ -1,3 +1,17 @@
+"""
+Definition:
+Heads-up display (HUD) overlay showing vital player and game information.
+
+Responsibilities:
+- Render player stats such as level, score, and hearts.
+- Optionally update or animate HUD elements if needed (currently a placeholder update method).
+- Draws directly to the game surface each frame.
+
+Trigger / Usage:
+- Called each frame from Game.render() after the world has been drawn.
+- No input handling; purely visual feedback.
+"""
+
 # Standard Library Imports
 
 

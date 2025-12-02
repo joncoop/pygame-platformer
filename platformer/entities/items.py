@@ -1,3 +1,17 @@
+"""
+Definition:
+Objects the player collects that directly modify the player's attributes or inventory.
+
+Examples:
+- Gems (score)
+- Hearts (health)
+- Keys (inventory unlockers)
+- Powerups (jump boost, temporary buffs)
+
+Trigger: Collect on touch.
+"""
+
+
 # Standard Library Imports
 
 # Third-Party Imports

@@ -1,3 +1,18 @@
+"""
+Definition:
+A visual debugging aid for level design that overlays a grid on the screen.
+
+Responsibilities:
+- Draw vertical and horizontal grid lines based on the game's GRID_SIZE.
+- Optionally display coordinates of each grid cell.
+- Adjust lines dynamically based on camera offsets for accurate positioning.
+
+Trigger / Usage:
+- Can be toggled on/off.
+- Updated and drawn each frame during level editing or debugging.
+- Primarily intended for developers; does not affect gameplay mechanics.
+"""
+
 # Standard Library Imports
 
 

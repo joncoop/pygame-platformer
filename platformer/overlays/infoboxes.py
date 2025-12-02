@@ -1,3 +1,17 @@
+"""
+Definition:
+Overlay text boxes that provide information or dialogue to the player.
+
+Responsibilities:
+- Display multi-page text with optional styling (font, colors, padding).
+- Handle player input for navigating pages or dismissing the box.
+- Specialized subclasses support specific contexts like signs or NPC speech.
+
+Trigger / Usage:
+- Activated via player interaction with an object (e.g., Sign or NPC).
+- Drawn on top of the game surface while the game is in the INTERACTING scene.
+"""
+
 # Standard Library Imports
 
 

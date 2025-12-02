@@ -1,3 +1,21 @@
+"""
+Definition:
+The central game controller that manages scenes, input, updates, rendering, and
+overall game flow.
+
+Responsibilities:
+- Initialize Pygame, load assets, and create necessary overlays (HUD, grid, menus)
+- Track current scene (start, playing, interacting, pause, level complete, win, lose)
+- Manage level loading, hero creation, and world instantiation
+- Handle player input and interactions with the world
+- Update the world state and camera position
+- Render the world, HUD, overlays, and infoboxes
+- Maintain game loop with consistent framerate
+
+Trigger: The main game loop is executed via Game.play(), which continuously
+processes input, updates game state, and renders each frame.
+"""
+
 # Standard library
 import json
 
@@ -79,7 +97,9 @@ class Game:
         self.wizard_img = pygame.image.load(settings.WIZARD_IMG).convert_alpha()
 
         # Goal
-        self.flag_img = pygame.image.load(settings.FLAG_IMG).convert_alpha()
+        self.flag_animations = {
+            "default": [pygame.image.load(path).convert_alpha() for path in settings.FLAG_IMGS]
+        }
         self.flagpole_img = pygame.image.load(settings.FLAGPOLE_IMG).convert_alpha()
 
     def make_overlays(self):

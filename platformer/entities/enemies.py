@@ -1,3 +1,16 @@
+"""
+Definition:
+Autonomous hostile entities that can harm the player. Each enemy has movement, animation, and collision behavior.
+
+Examples:
+- Cloud (moves horizontally)
+- Spikeball (rolls and bounces on platforms)
+- Spikeman (walks, turns at edges, damages on contact)
+
+Trigger: Collisions with the player reduce health or trigger bounce-back effects.
+"""
+
+
 # Standard Library Imports
 
 # Third-Party Imports

@@ -1,3 +1,14 @@
+"""
+Definition:
+Decorative or background objects that do not affect player movement or game logic.
+
+Examples:
+- Background tiles (grass, stone, dirt patterns)
+- Animated scenery (water, clouds, etc.)
+
+Trigger: None. Tiles are purely visual and do not interact with the player.
+"""
+
 # Standard Library Imports
 
 # Third-Party Imports
@@ -21,5 +32,3 @@ class AnimatedTile(AnimatedEntity):
 
     def update(self):
         self.animate()
-
-

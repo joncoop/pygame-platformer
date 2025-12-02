@@ -1,3 +1,15 @@
+"""
+Entry point for running the game.
+
+Responsibilities:
+- Instantiate the Game class.
+- Start the main game loop via Game.play().
+
+Usage:
+- Run this file directly to launch the game.
+- Does not contain game logic or asset management; delegates to Game.
+"""
+
 # Standard library
 import json
 

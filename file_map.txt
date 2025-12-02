@@ -29,7 +29,9 @@ pygame-platformer/
     │   ├── hero.py
     │   ├── interactables.py
     │   ├── items.py
-    │   └── tiles.py
+    │   ├── platforms.py
+    │   ├── tiles.py
+    │   └── triggers.py
     │   
     ├── overlays/
     │   ├── __init__.py

@@ -1,3 +1,20 @@
+"""
+Definition:
+Encapsulates the entire game world, including all entities and level structure.
+
+Responsibilities:
+- Load level data from JSON files and instantiate the corresponding objects
+- Organize sprites into logical groups (players, platforms, enemies, items, interactables, goals)
+- Track world dimensions and hero starting position
+- Provide centralized update and draw methods for all sprites
+- Manage layering of sprite rendering for consistent visual presentation
+
+Trigger:
+- The Game class calls World.update() every frame to advance all sprites.
+- The Game class calls World.draw(surface, offset_x, offset_y) every frame to render the world.
+  Offsets are optional; they are used for scrolling but default to (0, 0) if not provided.
+"""
+
 # Standard Library Imports
 import json
 
@@ -10,6 +27,8 @@ from platformer.entities.tiles import Tile
 from platformer.entities.enemies import Cloud, Spikeball, Spikeman
 from platformer.entities.items import Gem, Heart, Key
 from platformer.entities.interactables import Door, NPC, Sign
+from platformer.entities.platforms import BreakablePlatform, Crate, ItemBlock, MovingPlatform, Platform
+from platformer.entities.triggers import Flag, Flagpole
 
 
 class World:
@@ -41,11 +60,11 @@ class World:
         # Platforms
         if 'grass' in self.data:   
             for location in self.data['grass']:
-                self.platforms.add( Tile(self.game, location, self.game.grass_dirt_img) )
+                self.platforms.add( Platform(self.game, location, self.game.grass_dirt_img) )
 
         if 'blocks' in self.data:    
             for location in self.data['blocks']:
-                self.platforms.add( Tile(self.game, location, self.game.block_img) )
+                self.platforms.add( Platform(self.game, location, self.game.block_img) )
         
         # Enemies
         if 'clouds' in self.data:    
@@ -104,9 +123,9 @@ class World:
         if 'flag' in self.data:    
             for i, location in enumerate(self.data['flag']):
                 if i == 0:
-                    self.goals.add( Tile(self.game, location, self.game.flag_img) )
+                    self.goals.add( Flag(self.game, location, self.game.flag_animations) )
                 else:
-                    self.goals.add( Tile(self.game, location, self.game.flagpole_img) ) 
+                    self.goals.add( Flagpole(self.game, location, self.game.flagpole_img) ) 
 
         # Make one big sprite group for easy updating
         self.all_sprites.add(self.players, self.platforms, self.enemies, self.items, self.interactables, self.goals)
@@ -114,7 +133,7 @@ class World:
     def update(self):
         self.all_sprites.update()
 
-    def draw(self, surface, offset_x, offset_y):
+    def draw(self, surface, offset_x=0, offset_y=0):
         surface.fill(settings.SKY_BLUE)
 
         # Draw sprites with desired layering

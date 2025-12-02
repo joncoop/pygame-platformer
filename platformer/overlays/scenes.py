@@ -1,3 +1,21 @@
+"""
+Definition:
+Full-screen overlays used to convey game states and instructions to the player.
+
+Responsibilities:
+- Render static or semi-static text for major game scenes such as:
+    - Title screen
+    - Win/Lose screens
+    - Level completion
+    - Pause state
+- Provide minimal update logic; primarily visual.
+- Drawn on top of the game surface when the game is in a corresponding scene.
+
+Trigger / Usage:
+- Activated automatically by the game when the player reaches a certain scene (start, win, lose, pause, level complete).
+- Interacts with player input only to progress past the screen (e.g., 'SPACE', 'r', 'p').
+"""
+
 # Standard Library Imports
 
 
