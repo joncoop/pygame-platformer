@@ -5,7 +5,7 @@ import pygame
 
 # Local Imports
 import settings
-from .entity import AnimatedEntity
+from platformer.entities.entity import AnimatedEntity
 
 
 class Hero(AnimatedEntity):

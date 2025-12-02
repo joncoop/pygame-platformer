@@ -5,7 +5,7 @@ import pygame
 
 # Local Imports
 import settings
-from .entity import Entity, AnimatedEntity
+from platformer.entities.entity  import Entity, AnimatedEntity
 
 """
 might later include:

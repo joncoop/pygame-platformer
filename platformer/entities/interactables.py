@@ -5,7 +5,7 @@ import pygame
 
 # Local Imports
 import settings
-from .entity import Entity, AnimatedEntity
+from platformer.entities.entity  import Entity, AnimatedEntity
 from platformer.overlays import SignText, SpeechBubble
 
 
@@ -60,7 +60,7 @@ class Button(AnimatedEntity):
         self.action = action
 
     def interact(self, character):
-        # This is different too. A button interacts with the world, not the character.
+        # This is different. A button interacts with the world, not the character.
         pass
 
 

@@ -1,4 +1,4 @@
-platformer/
+pygame-platformer/
 │
 ├── LICENSE.txt
 ├── main.py
@@ -14,30 +14,29 @@ platformer/
 │   ├── sounds/
 │   └── sources.txt
 │
-└── src
-    └── platformer/
+└── platformer/
+    ├── __init__.py
+    ├── game.py
+    │
+    ├── camera/
+    │   ├── __init__.py
+    │   └── camera.py
+    │
+    ├── entities/
+    │   ├── __init__.py
+    │   ├── enemies.py
+    │   ├── entity.py
+    │   ├── hero.py
+    │   ├── interactables.py
+    │   ├── items.py
+    │   └── tiles.py
+    │   
+    ├── overlays/
+    │   ├── __init__.py
+    │   ├── grid.py   
+    │   ├── hud.py   
+    │   └── scenes.py
+    │   
+    └── world/
         ├── __init__.py
-        ├── game.py
-        │
-        ├── camera/
-        │   ├── __init__.py
-        │   └── camera.py
-        │
-        ├── entities/
-        │   ├── __init__.py
-        │   ├── enemies.py
-        │   ├── entity.py
-        │   ├── hero.py
-        │   ├── interactables.py
-        │   ├── items.py
-        │   └── tiles.py
-        │   
-        ├── overlays/
-        │   ├── __init__.py
-        │   ├── grid.py   
-        │   ├── hud.py   
-        │   └── scenes.py
-        │   
-        └── world/
-            ├── __init__.py
-            └── world.py
+        └── world.py
