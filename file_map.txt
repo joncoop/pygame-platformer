@@ -26,6 +26,7 @@ pygame-platformer/
     │   ├── __init__.py
     │   ├── enemies.py
     │   ├── entity.py
+    │   ├── climbables.py
     │   ├── hero.py
     │   ├── interactables.py
     │   ├── items.py

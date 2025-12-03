@@ -42,6 +42,7 @@ HERO_IMGS_IDLE = ['assets/images/characters/player_idle.png']
 HERO_IMGS_WALK = ['assets/images/characters/player_walk1.png',
                   'assets/images/characters/player_walk2.png']
 HERO_IMGS_JUMP = ['assets/images/characters/player_jump.png']
+HERO_IMGS_CLIMB = ['assets/images/characters/player_idle.png', 'assets/images/characters/player_idle.png'] # Fix when I find better animated character
 
 ''' tiles '''
 GRASS_IMG = 'assets/images/tiles/grass_dirt.png'
@@ -68,6 +69,10 @@ SPIKEMAN_IMGS = ['assets/images/characters/spikeman_walk1.png',
 SHOPKEEPER_IMG = 'assets/images/characters/character_malePerson_talk.png'
 WIZARD_IMG = 'assets/images/characters/wizard.png'
 
+''' climbables '''
+LADDER_IMG = 'assets/images/tiles/ladder_mid.png'
+LADDER_TOP_IMG = 'assets/images/tiles/ladder_top.png'
+
 # Sounds
 JUMP_SND = 'assets/sounds/jump.wav'
 GEM_SND = 'assets/sounds/collect_point.wav'
@@ -77,7 +82,7 @@ TITLE_MUSIC = 'assets/music/calm_happy.ogg'
 MAIN_THEME = 'assets/music/cooking_mania.wav'
 
 # Levels
-STARTING_LEVEL = 1
+STARTING_LEVEL = 8
 
 LEVELS = [
     'assets/levels/world-1.json',
@@ -99,7 +104,8 @@ DEFAULT_ANIMATION_FRAME_RATE = 0.1
 
 HERO_HEARTS = 3
 HERO_MAX_HEARTS = 5
-HERO_SPEED = 5
+HERO_WALK_SPEED = 5
+HERO_CLIMB_SPEED = 3
 HERO_JUMP_POWER = 22
 HERO_ESCAPE_TIME = 180
 

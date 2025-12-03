@@ -37,7 +37,7 @@ class Hero(AnimatedEntity):
         self.facing_right = True
         self.respawn_point = location  # actually gets set in load level, location is None at instantiation (should this just be saved in game?)
         self.key_chain = []
-        self.on_ladder = False
+        self.is_climbing = False
     
     def act(self, events, pressed_keys):
         if pressed_keys[self.controls['left']]:
@@ -45,7 +45,14 @@ class Hero(AnimatedEntity):
         elif pressed_keys[self.controls['right']]:
             self.go_right()
         else:
-            self.stop()
+            self.stop_x()
+        
+        if pressed_keys[self.controls['up']]:
+            self.go_up()
+        elif pressed_keys[self.controls['down']]:
+            self.go_down()
+        elif self.is_climbing:
+            self.stop_y()
 
         for event in events:
             if event.type == pygame.KEYDOWN:
@@ -53,32 +60,19 @@ class Hero(AnimatedEntity):
                     self.jump()
                 elif event.key == settings.CONTROLS['interact']:
                     self.interact()
-    
-    def go_left(self):
-        self.vx = -1 * settings.HERO_SPEED
-        self.facing_right = False
-    
-    def go_right(self):
-        self.vx = settings.HERO_SPEED
-        self.facing_right = True
-
-    def stop(self):
-        self.vx = 0
-
-    def jump(self):
-        if self.can_jump:
-            self.vy = -1 * settings.HERO_JUMP_POWER
-
-    def interact(self):
-        hits = pygame.sprite.spritecollide(self, self.game.world.interactables, False)
-
-        for interactable in hits:
-            interactable.interact(self)
 
     @property
     def can_jump(self):
-        return self.on_platform
+        return self.on_platform or self.is_climbing  # Allow jumping off ladders
     
+    @property
+    def can_climb(self):
+        # Could check that hero is somewhat centered on ladder
+        on_climbable = pygame.sprite.spritecollideany(self, self.game.world.climbables)
+        if not on_climbable:
+            self.is_climbing = False
+        return on_climbable
+
     @property
     def is_alive(self):
         return self.hearts > 0
@@ -86,7 +80,57 @@ class Hero(AnimatedEntity):
     @property
     def reached_goal(self):
         return pygame.sprite.spritecollideany(self, self.game.world.goals)  # No collision resolution here, let hero overlap flag
+        
+    def go_left(self):
+        self.vx = -1 * settings.HERO_WALK_SPEED
+        self.facing_right = False
     
+    def go_right(self):
+        self.vx = settings.HERO_WALK_SPEED
+        self.facing_right = True
+
+    def stop_x(self):
+        self.vx = 0
+
+    def go_up(self):
+        if self.can_climb:
+            self.is_climbing = True
+        
+        hits = hits = pygame.sprite.spritecollide(self, self.game.world.climbables, False)
+        can_go_up_more = False
+        for climbable in hits:
+            if climbable.rect.top < self.rect.centery:
+                can_go_up_more = True
+
+        if self.is_climbing and can_go_up_more:
+            self.vy = -1 * settings.HERO_CLIMB_SPEED
+        else:
+            self.vy = 0
+    
+    def go_down(self):
+        if self.can_climb:
+            self.is_climbing = True
+        
+        if self.is_climbing:
+            self.vy = settings.HERO_CLIMB_SPEED
+
+    def stop_y(self):
+        self.vy = 0
+
+    def jump(self):
+        if self.can_jump:
+            if self.is_climbing:
+                self.vy = -1 * settings.HERO_JUMP_POWER / 2
+                self.is_climbing = False  # if is_climbing is True at jump, should it be disabled for a bit?
+            else:
+                self.vy = -1 * settings.HERO_JUMP_POWER
+                
+    def interact(self):
+        hits = pygame.sprite.spritecollide(self, self.game.world.interactables, False)
+
+        for interactable in hits:
+            interactable.interact(self)
+
     def check_enemies(self):
         hits = pygame.sprite.spritecollide(self, self.game.world.enemies, False)
 
@@ -124,6 +168,10 @@ class Hero(AnimatedEntity):
         return False
 
     def set_animation_key(self):
+        if self.is_climbing:
+            self.animation_key = "climb"
+            return
+        
         if self.facing_right:
             if not self.on_platform:
                 self.animation_key = "jump_right"
@@ -140,7 +188,12 @@ class Hero(AnimatedEntity):
                 self.animation_key = "idle_left"
 
     def update(self):
-        self.apply_gravity()
+        if not self.can_climb:
+            self.is_climbing = False
+
+        if not self.is_climbing:
+            self.apply_gravity()
+
         self.check_items()        # Place here in case an item affects movement
         self.check_enemies()      # Must be before move for bounce to work
         self.move_x()
@@ -148,5 +201,5 @@ class Hero(AnimatedEntity):
         self.move_y()
         self.check_platforms_y()
         self.check_world_edges()
-        self.check_world_bottom() # We don't need the return value for anything
+        self.check_world_bottom()
         self.animate()

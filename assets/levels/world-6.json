@@ -19,11 +19,11 @@
     "spikemen": [
         [11, 3]
     ],
-    "flag": [
-        [37, 3], [37, 4], [37, 5], [37, 6], [37, 7]
-    ],
     "signs": [
         {"loc": [11, 7], "message": "This is a sign!"},
         {"loc": [25, 7], "message": "This is another sign with a much longer message to test text wrapping."}
+    ],
+    "goals": [
+        [37, 3], [37, 4], [37, 5], [37, 6], [37, 7]
     ]
 }

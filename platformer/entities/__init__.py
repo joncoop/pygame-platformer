@@ -1,5 +1,6 @@
 from .entity import Entity, AnimatedEntity
 from .hero import Hero
+from .climbables import Fence, Ladder, Vine
 from .enemies import Cloud, Spikeball, Spikeman
 from .interactables import Door, NPC, Sign
 from .items import Gem, Heart, Key

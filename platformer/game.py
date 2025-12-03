@@ -65,6 +65,7 @@ class Game:
             "idle_right": [pygame.image.load(path).convert_alpha() for path in settings.HERO_IMGS_IDLE],
             "walk_right": [pygame.image.load(path).convert_alpha() for path in settings.HERO_IMGS_WALK],
             "jump_right": [pygame.image.load(path).convert_alpha() for path in settings.HERO_IMGS_JUMP],
+            "climb": [pygame.image.load(path).convert_alpha() for path in settings.HERO_IMGS_CLIMB],
         }
         self.hero_animations["idle_left"] = [pygame.transform.flip(image, True, False) for image in self.hero_animations["idle_right"]]
         self.hero_animations["walk_left"] = [pygame.transform.flip(image, True, False) for image in self.hero_animations["walk_right"]]
@@ -95,6 +96,10 @@ class Game:
         self.sign_img = pygame.image.load(settings.SIGN_IMG).convert_alpha()
         self.shopkeeper_img = pygame.image.load(settings.SHOPKEEPER_IMG).convert_alpha()
         self.wizard_img = pygame.image.load(settings.WIZARD_IMG).convert_alpha()
+ 
+        # Climbables
+        self.ladder_img = pygame.image.load(settings.LADDER_IMG).convert_alpha()
+        self.ladder_top_img = pygame.image.load(settings.LADDER_TOP_IMG).convert_alpha()
 
         # Goal
         self.flag_animations = {

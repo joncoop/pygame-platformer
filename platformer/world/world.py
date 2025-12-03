@@ -24,6 +24,7 @@ import pygame
 # Local Imports
 import settings
 from platformer.entities.tiles import Tile
+from platformer.entities.climbables import Fence, Ladder, Vine
 from platformer.entities.enemies import Cloud, Spikeball, Spikeman
 from platformer.entities.items import Gem, Heart, Key
 from platformer.entities.interactables import Door, NPC, Sign
@@ -43,6 +44,7 @@ class World:
         self.enemies = pygame.sprite.Group()
         self.items = pygame.sprite.Group()
         self.interactables = pygame.sprite.Group()
+        self.climbables = pygame.sprite.Group()
         self.goals = pygame.sprite.Group()
         self.all_sprites = pygame.sprite.Group()
 
@@ -119,16 +121,21 @@ class World:
                     image = self.game.wizard_img
                 self.interactables.add( NPC(self.game, location, image, message) )
         
+        # Climbables
+        if 'ladders' in self.data:
+            for location in self.data['ladders']:
+                self.climbables.add( Ladder(self.game, location, self.game.ladder_img) )
+        
         # Goals
-        if 'flag' in self.data:    
-            for i, location in enumerate(self.data['flag']):
+        if 'goals' in self.data:    
+            for i, location in enumerate(self.data['goals']):
                 if i == 0:
                     self.goals.add( Flag(self.game, location, self.game.flag_animations) )
                 else:
                     self.goals.add( Flagpole(self.game, location, self.game.flagpole_img) ) 
 
         # Make one big sprite group for easy updating
-        self.all_sprites.add(self.players, self.platforms, self.enemies, self.items, self.interactables, self.goals)
+        self.all_sprites.add(self.players, self.platforms, self.enemies, self.items, self.interactables, self.climbables, self.goals)
     
     def update(self):
         self.all_sprites.update()
@@ -137,7 +144,7 @@ class World:
         surface.fill(settings.SKY_BLUE)
 
         # Draw sprites with desired layering
-        for group in [self.platforms, self.interactables, self.items, self.enemies, self.goals, self.players]:
+        for group in [self.platforms, self.climbables, self.interactables, self.items, self.enemies, self.goals, self.players]:
             for sprite in group:
                 x = sprite.rect.x - offset_x
                 y = sprite.rect.y - offset_y
