@@ -13,15 +13,14 @@ pygame-platformer/
 │   │   ├── characters/
 │   │   |   ├── enemies/
 │   │   |   ├── npcs/
-│   │   |   └── player/
+│   │   |   └── players/
 |   |   |
 │   │   ├── items/
-│   │   └── tiles/
-│   │   |   ├── climbables/
-│   │   |   ├── interactables/
-│   │   |   ├── platforms/
-│   │   |   ├── scenery/
-│   │   |   └── triggers/
+│   │   ├── climbables/
+│   │   ├── interactables/
+│   │   ├── platforms/
+│   │   ├── tiles/
+│   │   └── triggers/
 |   |
 │   ├── levels/
 │   ├── music/

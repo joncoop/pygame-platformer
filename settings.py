@@ -38,25 +38,25 @@ SECONDARY_FONT = 'assets/fonts/Dinomouse-Regular.otf'
 
 # Images
 ''' hero '''
-HERO_IMGS_IDLE = ['assets/images/characters/player/player_idle.png']
-HERO_IMGS_WALK = ['assets/images/characters/player/player_walk1.png',
-                  'assets/images/characters/player/player_walk2.png']
-HERO_IMGS_JUMP = ['assets/images/characters/player/player_jump.png']
-HERO_IMGS_CLIMB = ['assets/images/characters/player/player_idle.png', # Fix when I find better animated character
-                   'assets/images/characters/player/player_idle.png'] 
+HERO_IMGS_IDLE = ['assets/images/characters/players/player_idle.png']
+HERO_IMGS_WALK = ['assets/images/characters/players/player_walk1.png',
+                  'assets/images/characters/players/player_walk2.png']
+HERO_IMGS_JUMP = ['assets/images/characters/players/player_jump.png']
+HERO_IMGS_CLIMB = ['assets/images/characters/players/player_idle.png', # Fix when I find better animated character
+                   'assets/images/characters/players/player_idle.png'] 
 
 ''' platforms '''
-GRASS_IMG = 'assets/images/tiles/platforms/grass_dirt.png'
-BLOCK_IMG = 'assets/images/tiles/platforms/block.png'
+GRASS_IMG = 'assets/images/platforms/grass_dirt.png'
+BLOCK_IMG = 'assets/images/platforms/block.png'
 
 ''' interactables '''
-DOOR_IMG = 'assets/images/tiles/interactables/door.png'
-LOCKED_DOOR_IMG = 'assets/images/tiles/interactables/locked_door.png'
-SIGN_IMG = 'assets/images/tiles/interactables/sign.png'
+DOOR_IMG = 'assets/images/interactables/door.png'
+LOCKED_DOOR_IMG = 'assets/images/interactables/locked_door.png'
+SIGN_IMG = 'assets/images/interactables/sign.png'
 
 
-FLAG_IMGS = ['assets/images/tiles/triggers/flag.png']
-FLAGPOLE_IMG = 'assets/images/tiles/triggers/flagpole.png'
+FLAG_IMGS = ['assets/images/triggers/flag.png']
+FLAGPOLE_IMG = 'assets/images/triggers/flagpole.png'
 
 ''' items '''
 GEM_IMG = 'assets/images/items/gem.png'
@@ -75,8 +75,8 @@ SHOPKEEPER_IMG = 'assets/images/characters/npcs/character_malePerson_talk.png'
 WIZARD_IMG = 'assets/images/characters/npcs/wizard.png'
 
 ''' climbables '''
-LADDER_IMG = 'assets/images/tiles/climbables/ladder_mid.png'
-LADDER_TOP_IMG = 'assets/images/tiles/climbables/ladder_top.png'
+LADDER_IMG = 'assets/images/climbables/ladder_mid.png'
+LADDER_TOP_IMG = 'assets/images/climbables/ladder_top.png'
 
 # Sounds
 JUMP_SND = 'assets/sounds/jump.wav'
