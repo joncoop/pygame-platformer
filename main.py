@@ -7,7 +7,6 @@ Responsibilities:
 
 Usage:
 - Run this file directly to launch the game.
-- Does not contain game logic or asset management; delegates to Game.
 """
 
 # Standard library

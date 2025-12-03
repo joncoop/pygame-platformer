@@ -9,6 +9,20 @@ pygame-platformer/
 ├── assets
 │   ├── fonts/
 │   ├── images/
+│   │   ├── backgrounds/
+│   │   ├── characters/
+│   │   |   ├── enemies/
+│   │   |   ├── npcs/
+│   │   |   └── player/
+|   |   |
+│   │   ├── items/
+│   │   └── tiles/
+│   │   |   ├── climbables/
+│   │   |   ├── interactables/
+│   │   |   ├── platforms/
+│   │   |   ├── scenery/
+│   │   |   └── triggers/
+|   |
 │   ├── levels/
 │   ├── music/
 │   ├── sounds/
