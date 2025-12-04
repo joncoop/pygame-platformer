@@ -47,16 +47,21 @@ class Spikeball(AnimatedEntity):
         self.vy = 0
     
     def update(self):
+        self.check_water()
         self.apply_gravity()
         self.move_x()
         hit_platform_x = self.check_platforms_x()
         self.move_y()
         self.check_platforms_y()
         at_world_edge = self.check_world_edges()
+        off_bottom_edge = self.check_world_bottom()
         self.animate()
 
         if at_world_edge or hit_platform_x:
             self.turn_around()
+
+        if off_bottom_edge:
+            self.kill()
 
 
 class Spikeman(AnimatedEntity):
@@ -74,14 +79,44 @@ class Spikeman(AnimatedEntity):
             self.animation_key = "walk_left"
     
     def update(self):
+        self.check_water()
         self.apply_gravity()
         self.move_x()
         hit_platform_x = self.check_platforms_x()
         self.move_y()
         self.check_platforms_y()
-        at_world_edge = self.check_world_edges()
         at_platform_edge = self.check_platform_edges()
+        at_world_edge = self.check_world_edges()
+        off_bottom_edge = self.check_world_bottom()
         self.animate()
 
         if at_world_edge or hit_platform_x or at_platform_edge:
+            self.turn_around()
+
+        if off_bottom_edge:
+            self.kill()
+
+
+class Fish(AnimatedEntity):
+
+    def __init__(self, game, location, animations):
+        super().__init__(game, location, animations, default_animation_key="swim_right")
+
+        self.vx = settings.FISH_SPEED
+        self.vy = 0
+
+    
+    def set_animation_key(self):
+        if self.vx > 0:
+            self.animation_key = "swim_right"
+        else:
+            self.animation_key = "swim_left"
+
+    def update(self):
+        self.move_x()
+        hit_platform_x = self.check_platforms_x()
+        at_world_edge = self.check_world_edges()
+        self.animate()
+
+        if hit_platform_x or at_world_edge:
             self.turn_around()

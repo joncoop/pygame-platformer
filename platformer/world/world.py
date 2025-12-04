@@ -25,7 +25,8 @@ import pygame
 import settings
 from platformer.entities.tiles import Tile
 from platformer.entities.climbables import Fence, Ladder, Vine
-from platformer.entities.enemies import Cloud, Spikeball, Spikeman
+from platformer.entities.enemies import Cloud, Fish, Spikeball, Spikeman
+from platformer.entities.fluids import Water
 from platformer.entities.items import Gem, Heart, Key
 from platformer.entities.interactables import Door, NPC, Sign
 from platformer.entities.platforms import BreakablePlatform, Crate, ItemBlock, MovingPlatform, Platform
@@ -45,6 +46,7 @@ class World:
         self.items = pygame.sprite.Group()
         self.interactables = pygame.sprite.Group()
         self.climbables = pygame.sprite.Group()
+        self.water = pygame.sprite.Group()
         self.goals = pygame.sprite.Group()
         self.all_sprites = pygame.sprite.Group()
 
@@ -60,13 +62,26 @@ class World:
         self.hero.respawn_point = self.data['start']
 
         # Platforms
-        if 'grass' in self.data:   
-            for location in self.data['grass']:
+        if 'grass_dirt' in self.data:   
+            for location in self.data['grass_dirt']:
                 self.platforms.add( Platform(self.game, location, self.game.grass_dirt_img) )
+
+        if 'dirt' in self.data:   
+            for location in self.data['dirt']:
+                self.platforms.add( Platform(self.game, location, self.game.dirt_img) )
 
         if 'blocks' in self.data:    
             for location in self.data['blocks']:
                 self.platforms.add( Platform(self.game, location, self.game.block_img) )
+        
+        # Water
+        if 'water' in self.data:    
+            for location in self.data['water']:
+                self.water.add( Water(self.game, location, self.game.water_img) )
+        
+        if 'water_tops' in self.data:    
+            for location in self.data['water_tops']:
+                self.water.add( Water(self.game, location, self.game.water_top_img) )
         
         # Enemies
         if 'clouds' in self.data:    
@@ -80,6 +95,10 @@ class World:
         if 'spikemen' in self.data:    
             for location in self.data['spikemen']:
                 self.enemies.add( Spikeman(self.game, location, self.game.spikeman_animations) )
+        
+        if 'fish' in self.data:    
+            for location in self.data['fish']:
+                self.enemies.add( Fish(self.game, location, self.game.fish_animations) )
         
         # Items
         if 'gems' in self.data:    
@@ -135,7 +154,8 @@ class World:
                     self.goals.add( Flagpole(self.game, location, self.game.flagpole_img) ) 
 
         # Make one big sprite group for easy updating
-        self.all_sprites.add(self.players, self.platforms, self.enemies, self.items, self.interactables, self.climbables, self.goals)
+        self.all_sprites.add(self.players, self.platforms, self.enemies, self.items, 
+                             self.interactables, self.climbables, self.water, self.goals)
     
     def update(self):
         self.all_sprites.update()
@@ -144,7 +164,10 @@ class World:
         surface.fill(settings.SKY_BLUE)
 
         # Draw sprites with desired layering
-        for group in [self.platforms, self.climbables, self.interactables, self.items, self.enemies, self.goals, self.players]:
+        draw_order  = [self.water, self.platforms, self.climbables, self.interactables, 
+                       self.items, self.enemies, self.goals, self.players]
+
+        for group in draw_order:
             for sprite in group:
                 x = sprite.rect.x - offset_x
                 y = sprite.rect.y - offset_y

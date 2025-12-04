@@ -59,11 +59,11 @@ class Hero(AnimatedEntity):
                 if event.key == settings.CONTROLS['jump']:
                     self.jump()
                 elif event.key == settings.CONTROLS['interact']:
-                    self.interact()
+                    self.check_interactables()
 
     @property
     def can_jump(self):
-        return self.on_platform or self.is_climbing  # Allow jumping off ladders
+        return self.on_platform or self.is_climbing or self.in_water
     
     @property
     def can_climb(self):
@@ -82,11 +82,21 @@ class Hero(AnimatedEntity):
         return pygame.sprite.spritecollideany(self, self.game.world.goals)  # No collision resolution here, let hero overlap flag
         
     def go_left(self):
-        self.vx = -1 * settings.HERO_WALK_SPEED
+        if self.in_water:
+            speed = settings.HERO_SWIM_SPEED
+        else:
+            speed = settings.HERO_WALK_SPEED
+
+        self.vx = -1 * speed
         self.facing_right = False
     
     def go_right(self):
-        self.vx = settings.HERO_WALK_SPEED
+        if self.in_water:
+            speed = settings.HERO_SWIM_SPEED
+        else:
+            speed = settings.HERO_WALK_SPEED
+
+        self.vx = speed
         self.facing_right = True
 
     def stop_x(self):
@@ -96,7 +106,7 @@ class Hero(AnimatedEntity):
         if self.can_climb:
             self.is_climbing = True
         
-        hits = hits = pygame.sprite.spritecollide(self, self.game.world.climbables, False)
+        hits = pygame.sprite.spritecollide(self, self.game.world.climbables, False)
         can_go_up_more = False
         for climbable in hits:
             if climbable.rect.top < self.rect.centery:
@@ -120,12 +130,16 @@ class Hero(AnimatedEntity):
     def jump(self):
         if self.can_jump:
             if self.is_climbing:
-                self.vy = -1 * settings.HERO_JUMP_POWER / 2
-                self.is_climbing = False  # if is_climbing is True at jump, should it be disabled for a bit?
+                jump_power = -1 * settings.HERO_CLIMB_JUMP_POWER
+            elif self.in_water:
+                jump_power = -1 * settings.HERO_WATER_JUMP_POWER
             else:
-                self.vy = -1 * settings.HERO_JUMP_POWER
-                
-    def interact(self):
+                jump_power = -1 * settings.HERO_JUMP_POWER
+
+            self.vy = jump_power
+            self.is_climbing = False
+
+    def check_interactables(self):
         hits = pygame.sprite.spritecollide(self, self.game.world.interactables, False)
 
         for interactable in hits:
@@ -139,10 +153,12 @@ class Hero(AnimatedEntity):
                 self.escape_time = settings.HERO_ESCAPE_TIME
                 self.hearts -= 1
 
-                bouncex = 15  # Magic number alert! (Also isn't detecting which way the collision occured.)
+                bouncex = 15  # Magic number alert!
                 bouncey = -5
                 if self.rect.centerx < enemy.rect.centerx:
                     bouncex *= -1
+                if self.rect.centery < enemy.rect.centery:
+                    bouncey *= -1
 
                 self.vx = bouncex
                 self.vy = bouncey
@@ -157,9 +173,9 @@ class Hero(AnimatedEntity):
             item.apply(self)
 
     def check_world_bottom(self):
-        off_bottom = super().check_world_bottom()
+        off_bottom_edge = super().check_world_bottom()
 
-        if off_bottom:
+        if off_bottom_edge:
             self.hearts -= 1
 
             if self.hearts > 0:
@@ -188,14 +204,16 @@ class Hero(AnimatedEntity):
                 self.animation_key = "idle_left"
 
     def update(self):
-        if not self.can_climb:
+        self.check_water()
+
+        if not self.can_climb:  # for sideways movement off climable object
             self.is_climbing = False
 
         if not self.is_climbing:
             self.apply_gravity()
 
         self.check_items()        # Place here in case an item affects movement
-        self.check_enemies()      # Must be before move for bounce to work
+        self.check_enemies()      # Must be before move for bounce off enemies to work
         self.move_x()
         self.check_platforms_x()  # Must resolve collisions in x-direction prior to moving in y-direction
         self.move_y()

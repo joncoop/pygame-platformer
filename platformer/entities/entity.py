@@ -41,6 +41,8 @@ class Entity(pygame.sprite.Sprite):
         self.vx = 0
         self.vy = 0
 
+        self.in_water = False
+
         if location is not None:
             self.move_to(location)
 
@@ -57,10 +59,15 @@ class Entity(pygame.sprite.Sprite):
         return len(hits) > 0
 
     def apply_gravity(self):
-        self.vy += settings.GRAVITY
+        if self.in_water:
+            gravity = settings.WATER_GRAVITY
+            terminal_velocity = settings.WATER_TERMINAL_VELOCITY
+        else:
+            gravity = settings.GRAVITY
+            terminal_velocity = settings.TERMINAL_VELOCITY
 
-        if self.vy > settings.TERMINAL_VELOCITY:
-            self.vy = settings.TERMINAL_VELOCITY
+        self.vy += gravity
+        self.vy = min(self.vy, terminal_velocity)
 
     def move_x(self):
         self.rect.x += self.vx
@@ -71,6 +78,9 @@ class Entity(pygame.sprite.Sprite):
     def turn_around(self):
         self.vx *= -1
 
+    def check_water(self):
+        self.in_water = pygame.sprite.spritecollideany(self, self.game.world.water)
+    
     def check_platforms_x(self):
         hits = pygame.sprite.spritecollide(self, self.game.world.platforms, False)
 
@@ -93,7 +103,6 @@ class Entity(pygame.sprite.Sprite):
 
         if len(hits) > 0:
             self.vy = 0
-
 
     def check_platform_edges(self):
         at_edge = True

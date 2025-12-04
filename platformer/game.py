@@ -57,7 +57,8 @@ class Game:
 
     def load_assets(self):
         # Platforms
-        self.grass_dirt_img = pygame.image.load(settings.GRASS_IMG).convert_alpha()
+        self.grass_dirt_img = pygame.image.load(settings.GRASS_DIRT_IMG).convert_alpha()
+        self.dirt_img = pygame.image.load(settings.DIRT_IMG).convert_alpha()
         self.block_img = pygame.image.load(settings.BLOCK_IMG).convert_alpha()
         
         # Hero
@@ -85,6 +86,11 @@ class Game:
         }
         self.spikeman_animations["walk_left"] = [pygame.transform.flip(image, True, False) for image in self.spikeman_animations["walk_right"]]
         
+        self.fish_animations = {
+            "swim_left": [pygame.image.load(path).convert_alpha() for path in settings.FISH_IMGS]
+        }
+        self.fish_animations["swim_right"] = [pygame.transform.flip(image, True, False) for image in self.fish_animations["swim_left"]]
+        
         # Items
         self.gem_img = pygame.image.load(settings.GEM_IMG).convert_alpha()
         self.heart_img = pygame.image.load(settings.HEART_IMG).convert_alpha()
@@ -100,6 +106,10 @@ class Game:
         # Climbables
         self.ladder_img = pygame.image.load(settings.LADDER_IMG).convert_alpha()
         self.ladder_top_img = pygame.image.load(settings.LADDER_TOP_IMG).convert_alpha()
+
+        # fluids
+        self.water_img = pygame.image.load(settings.WATER_IMG).convert_alpha()
+        self.water_top_img = pygame.image.load(settings.WATER_TOP_IMG).convert_alpha()
 
         # Goal
         self.flag_animations = {
@@ -164,6 +174,9 @@ class Game:
     def lose(self):
         self.current_scene = Game.LOSE
 
+    def quit(self):  # good place to save high score, possibly
+        self.running = False
+
     def check_status(self):
         if self.current_scene == Game.PLAYING:
             if not self.world.hero.is_alive:
@@ -195,7 +208,7 @@ class Game:
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                self.running = False
+                self.quit()
 
             elif event.type == pygame.KEYDOWN:
                 # for level editing
@@ -212,6 +225,9 @@ class Game:
                 elif self.current_scene in [Game.WIN, Game.LOSE]:
                     if event.key == pygame.K_r:
                         self.new_game()
+                        continue
+                    elif event.key == pygame.K_q:
+                        self.quit()
                         continue
                 elif self.current_scene in [Game.PLAYING, Game.PAUSE]:
                     if event.key == pygame.K_p:

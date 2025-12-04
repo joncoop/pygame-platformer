@@ -17,6 +17,7 @@ pygame-platformer/
 |   |   |
 │   │   ├── items/
 │   │   ├── climbables/
+│   │   ├── fluids/
 │   │   ├── interactables/
 │   │   ├── platforms/
 │   │   ├── tiles/
@@ -40,6 +41,7 @@ pygame-platformer/
     │   ├── enemies.py
     │   ├── entity.py
     │   ├── climbables.py
+    │   ├── fluids.py
     │   ├── hero.py
     │   ├── interactables.py
     │   ├── items.py

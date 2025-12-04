@@ -46,14 +46,14 @@ HERO_IMGS_CLIMB = ['assets/images/characters/players/player_idle.png', # Fix whe
                    'assets/images/characters/players/player_idle.png'] 
 
 ''' platforms '''
-GRASS_IMG = 'assets/images/platforms/grass_dirt.png'
-BLOCK_IMG = 'assets/images/platforms/block.png'
+GRASS_DIRT_IMG = 'assets/images/platforms/platformPack_tile001.png'
+DIRT_IMG = 'assets/images/platforms/platformPack_tile004.png'
+BLOCK_IMG = 'assets/images/platforms/platformPack_tile020.png'
 
 ''' interactables '''
 DOOR_IMG = 'assets/images/interactables/door.png'
 LOCKED_DOOR_IMG = 'assets/images/interactables/locked_door.png'
 SIGN_IMG = 'assets/images/interactables/sign.png'
-
 
 FLAG_IMGS = ['assets/images/triggers/flag.png']
 FLAGPOLE_IMG = 'assets/images/triggers/flagpole.png'
@@ -69,6 +69,8 @@ SPIKEBALL_IMGS = ['assets/images/characters/enemies/spikeball1.png',
                   'assets/images/characters/enemies/spikeball2.png']                   
 SPIKEMAN_IMGS = ['assets/images/characters/enemies/spikeman_walk1.png',
                  'assets/images/characters/enemies/spikeman_walk2.png']
+FISH_IMGS = ['assets/images/characters/enemies/fishSwim1.png',
+             'assets/images/characters/enemies/fishSwim1.png']
 
 ''' npcs '''
 SHOPKEEPER_IMG = 'assets/images/characters/npcs/character_malePerson_talk.png'
@@ -77,6 +79,10 @@ WIZARD_IMG = 'assets/images/characters/npcs/wizard.png'
 ''' climbables '''
 LADDER_IMG = 'assets/images/climbables/ladder_mid.png'
 LADDER_TOP_IMG = 'assets/images/climbables/ladder_top.png'
+
+''' fluids '''
+WATER_IMG = 'assets/images/fluids/platformPack_tile017.png'
+WATER_TOP_IMG = 'assets/images/fluids/platformPack_tile005.png'
 
 # Sounds
 JUMP_SND = 'assets/sounds/jump.wav'
@@ -112,11 +118,16 @@ HERO_MAX_HEARTS = 5
 HERO_WALK_SPEED = 5
 HERO_CLIMB_SPEED = 3
 HERO_JUMP_POWER = 22
-HERO_ESCAPE_TIME = 180
+HERO_CLIMB_JUMP_POWER = 8
+HERO_WATER_JUMP_POWER = 8
+HERO_SWIM_SPEED = 3
+HERO_ESCAPE_TIME = 45
 
+# Enemy attributes
+CLOUD_SPEED = 3
+FISH_SPEED = 1
 SPIKEMAN_SPEED = 2
 SPIKEBALL_SPEED = 2
-CLOUD_SPEED = 3
 
 # Item attributes
 GEM_VALUE = 10
@@ -124,6 +135,8 @@ GEM_VALUE = 10
 # Physics
 GRAVITY = 1.0
 TERMINAL_VELOCITY = 20
+WATER_GRAVITY = 0.3
+WATER_TERMINAL_VELOCITY = 5
 
 # Gameplay settings
 CONTROLS = {

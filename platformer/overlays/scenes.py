@@ -69,7 +69,7 @@ class WinScreen:
         rect.bottom = settings.SCREEN_HEIGHT // 2 - 8
         surface.blit(text, rect)
     
-        text = self.subtitle_font.render("Press 'r' to play again.", True, settings.WHITE)
+        text = self.subtitle_font.render("Press 'r' to play again or 'q' to quit.", True, settings.WHITE)
         rect = text.get_rect()
         rect.centerx = settings.SCREEN_WIDTH // 2
         rect.top = settings.SCREEN_HEIGHT // 2 + 8
@@ -94,7 +94,7 @@ class LoseScreen:
         rect.bottom = settings.SCREEN_HEIGHT // 2 - 8
         surface.blit(text, rect)
     
-        text = self.subtitle_font.render("Press 'r' to play again.", True, settings.WHITE)
+        text = self.subtitle_font.render("Press 'r' to play again or 'q' to quit.", True, settings.WHITE)
         rect = text.get_rect()
         rect.centerx = settings.SCREEN_WIDTH // 2
         rect.top = settings.SCREEN_HEIGHT // 2 + 8
